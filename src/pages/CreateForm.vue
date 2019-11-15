@@ -4,13 +4,7 @@
       <div class="md-layout-item">
         <center>
         <div class="md-layout-item md-medium-size-70 md-xsmall-size-70 md-size-70">
-          <md-tabs class="md-accent" md-alignment="centered" md-sync-route>
-            <md-tab id="tab-home" md-label="Question" to="/form">
-            </md-tab>
-            <md-tab id="tab-pages" md-label="Feedback" to="/feedback">
-            <user-card></user-card>
-            </md-tab>
-          </md-tabs>
+          <edit-profile-form data-background-color="purple"></edit-profile-form>
         </div>
       </center>
       </div>
@@ -19,12 +13,14 @@
 </template>
 
 <script>
+import {mapActions, mapState} from 'vuex'
+import Vue from "vue";
 
-import { UserCard } from "@/pages";
+import { EditProfileForm } from "@/pages";
 
 export default {
   components: {
-    UserCard
+    EditProfileForm
   }
 };
 

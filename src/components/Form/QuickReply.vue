@@ -7,15 +7,11 @@
             <div class="md-layout-item md-small-size-90 md-size-90">
               <md-field slot="content">
                 <label>คำถาม</label>
-                <md-input v-model="password" type="text"></md-input>
+                <md-input  type="text"></md-input>
               </md-field>
               <div class="md-layout">
-                <div class="md-layout-item md-small-size-40 md-size-40">
-                  
-                </div>
-                <div class="md-layout-item md-small-size-45 md-size-45">
-                  
-                </div>
+                <div class="md-layout-item md-small-size-40 md-size-40"></div>
+                <div class="md-layout-item md-small-size-45 md-size-45"></div>
                 <div class="md-layout-item md-small-size-15 md-size-15">
                   <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
                     <md-button id="btn" class="md-success md-icon-button md-dense" @click="addRow">
@@ -48,16 +44,6 @@
                       </md-field>
                     </div>
                     <div class="md-layout-item md-small-size-15 md-size-15">
-                      
-                        <md-button v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3"
-                          id="btn"
-                          class="md-success md-icon-button md-dense"
-                          @click="addRow"
-                        >
-                          <md-icon>add_box</md-icon>
-                          <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
-                        </md-button>
-                      
                       <md-button
                         id="btn"
                         class="md-danger md-icon-button md-dense"
@@ -170,6 +156,7 @@
     </div>
   </div>
 </template>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
 
 <script>

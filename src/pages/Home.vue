@@ -13,7 +13,7 @@
                 md-label="Create your first survey"
                 md-description="Creating survey, you'll be able to upload your design and collaborate with people."
                 >
-                <md-button class="md-primary md-raised" to="/form">Create first survey</md-button>
+                <md-button class="md-primary md-raised" to="/createform">Create new survey</md-button>
               </md-empty-state>
             </div>
           </md-card-header>

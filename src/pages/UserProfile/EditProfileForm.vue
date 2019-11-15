@@ -5,11 +5,11 @@
         <div class="md-layout-item">
           <md-field class="md-primary">
             <label>ชื่อฟอร์ม</label>
-            <md-input v-model="initial"></md-input>
+            <md-input></md-input>
           </md-field>
           <md-field>
             <label>คำอธิบายแบบฟอร์ม</label>
-            <md-input v-model="type"></md-input>
+            <md-input></md-input>
             <span class="md-helper-text"></span>
           </md-field>
         </div>
@@ -24,33 +24,65 @@
                   <div class="md-layout-item md-small-size-90 md-size-90">
                     <md-field slot="content">
                       <label>คำถาม</label>
-                      <md-input v-model="password" type="text"></md-input>
+                      <md-input type="text" v-model="question"></md-input>
                     </md-field>
                     <div class="md-layout">
-                      <div class="md-layout-item md-small-size-40 md-size-40">
-                        <md-field slot="content">
-                          <label>เพิ่มรูปภาพ</label>
-                          <md-file v-model="single" />
-                        </md-field>
-                      </div>
-                      <div class="md-layout-item md-small-size-45 md-size-45">
-                        <md-field slot="content">
-                          <md-icon>radio_button_checked</md-icon>
-                          <label>ระบุคำตอบ</label>
-                          <md-input v-model="password" type="text"></md-input>
-                        </md-field>
-                      </div>
+                      <div class="md-layout-item md-small-size-40 md-size-40"></div>
+                      <div class="md-layout-item md-small-size-45 md-size-45"></div>
                       <div class="md-layout-item md-small-size-15 md-size-15">
-                        <md-button id="btn" class="md-success md-icon-button md-dense">
-                          <md-icon>add_box</md-icon>
-                          <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
-                        </md-button>
-                        <md-button id="btn" class="md-danger md-icon-button md-dense">
-                          <md-icon>delete</md-icon>
-                          <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
-                        </md-button>
+                        <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
+                          <md-button
+                            id="btn"
+                            class="md-success md-icon-button md-dense"
+                            @click="addRow"
+                          >
+                            <md-icon>add_box</md-icon>
+                            <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
+                          </md-button>
+                          <!-- <md-button id="btn" class="md-danger md-icon-button md-dense">
+                    <md-icon>delete</md-icon>
+                    <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
+                          </md-button>-->
+                        </div>
                       </div>
                     </div>
+
+                    <ul>
+                      <li v-for="(input, index) in inputs" :key="input.id">
+                        <div class="md-layout">
+                          <div class="md-layout-item md-small-size-40 md-size-40">
+                            <md-field slot="content">
+                              <label>เพิ่มรูปภาพ</label>
+                              <md-file v-model="input.one" />
+                              <md-input v-model="input.one" type="text"></md-input>
+                            </md-field>
+                          </div>
+                          <div class="md-layout-item md-small-size-45 md-size-45">
+                            <md-field slot="content">
+                              <md-icon>radio_button_checked</md-icon>
+                              <label>ระบุคำตอบ</label>
+                              <md-input v-model="input.two" type="text"></md-input>
+                            </md-field>
+                          </div>
+                          <div class="md-layout-item md-small-size-15 md-size-15">
+                            <md-button
+                              id="btn"
+                              class="md-danger md-icon-button md-dense"
+                              @click="deleteRow(index)"
+                            >
+                              <md-icon>delete</md-icon>
+                              <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
+                            </md-button>
+                          </div>
+                        </div>
+
+                        <!-- <input type="text" v-model="input.one" />
+                  - {{ input.one }}
+                  <input type="text" v-model="input.two" />
+                  - {{ input.two }}
+                        <button @click="deleteRow(index)">Delete</button>-->
+                      </li>
+                    </ul>
                   </div>
 
                   <div class="md-layout-item md-small-size-10 md-size-10">
@@ -128,11 +160,15 @@
         <div class="md-layout">
           <div class="md-layout-item md-size-100 text-right">
             <center>
-              <md-button class="md-primary md-raised" @click="active = true">Confirm</md-button>
+              <md-button
+                class="md-primary md-raised"
+                @click="active = true"
+                v-on:click="createForm"
+              >Confirm</md-button>
             </center>
             <!-- <button @click="getUser()">get User from API</button>
             <br />
-            {{user}} -->
+            {{user}}-->
           </div>
         </div>
       </md-card-content>
@@ -188,8 +224,11 @@
     </div>
   </form>
 </template>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+
 <script>
-// import {mapActions, mapState} from 'vuex'
+import { mapActions, mapState } from "vuex";
 import Vue from "vue";
 // import Text from "@/components/Form/Text";
 import Generic from "@/components/Form/Generic";
@@ -205,18 +244,74 @@ export default {
       default: ""
     }
   },
+  data: function() {
+    return {
+      image1: inputs.one,
+      image2: inputs.one,
+      image3: inputs.one,
+      image4: inputs.one,
+      number: number,
+      question: question,
+      question_type: question_type,
+      answer1: inputs.two,
+      answer2: inputs.two,
+      answer3: inputs.two,
+      answer4: inputs.two,
+      no_question: no_question
+    };
+  },
   name: "DialogConfirm",
   data: () => ({
+    image1: "",
+    image2: "",
+    image3: "",
+    image4: "",
+    number: 4,
+    question: "",
+    question_type: "quick_reply",
+    answer1: "",
+    answer2: "",
+    answer3: "",
+    answer4: "",
+    no_question: 1,
+    inputs: [],
     active: false,
     value: null,
-    showDialog: false
+    showDialog: false,
+    iii: 0
   }),
   methods: {
+    ...mapActions({
+      getUser: "getUser",
+      createForm: "createForm"
+    }),
+
+    addRow() {
+      this.inputs.push({
+        one: "",
+        two: ""
+      });
+      this.iii = this.iii + 1;
+    },
+    deleteRow(index) {
+      this.inputs.splice(index, 1);
+      this.iii = this.iii - 1;
+    },
     // ...mapActions({
     //   getUser: 'getUser'
     // }),
     onConfirm() {
       this.value = "Agreed";
+
+      axios
+        .post("http://jsonplaceholder.typicode.com/posts", {
+          title: this.postTitle,
+          body: this.postBody
+        })
+        .then(response => {})
+        .catch(e => {
+          console.error(e);
+        });
     },
     onCancel() {
       this.value = "Disagreed";
@@ -256,11 +351,11 @@ export default {
     //   this.$refs.container.appendChild(instance.$el);
     // }
   },
-  // computed: {
-  //   ...mapState({
-  //     user: state => state.user
-  //   })
-  // }
+  computed: {
+    ...mapState({
+      user: state => state.user
+    })
+  }
 };
 </script>
 

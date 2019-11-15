@@ -19,12 +19,14 @@
               <div>
                 <md-field md-clearable>
                   <label>E-mail</label>
-                  <md-input v-model="initial"></md-input>
+                  <md-input ></md-input>
+                  <!-- <md-input v-model="initial"></md-input> -->
                 </md-field>
 
                 <md-field>
                   <label>Password</label>
-                  <md-input v-model="password" type="password"></md-input>
+                  <md-input type="password"></md-input>
+                  <!-- <md-input v-model="password" type="password"></md-input> -->
                 </md-field>
               </div>
               <sidebar-link to="/home">

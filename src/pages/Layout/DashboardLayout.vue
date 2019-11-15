@@ -12,11 +12,11 @@
         <md-icon>assignment</md-icon>
         <p>Form</p>
       </sidebar-link>
-      <sidebar-link to="/feedback">
-        <md-icon>feedback</md-icon>
-        <p>Feedback</p>
+      <sidebar-link to="/createform">
+        <md-icon>create</md-icon>
+        <p>CreateForm</p>
       </sidebar-link>
-      <sidebar-link to="/dashboard">
+      <!-- <sidebar-link to="/dashboard">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
@@ -35,15 +35,15 @@
       <sidebar-link to="/icons">
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <sidebar-link to="/maps">
         <md-icon>location_on</md-icon>
         <p>Maps</p>
       </sidebar-link>
-      <sidebar-link to="/notifications">
+      <!-- <sidebar-link to="/notifications">
         <md-icon>notifications</md-icon>
         <p>Notifications</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <sidebar-link to="/upgrade" class="active-pro">
         <md-icon>unarchive</md-icon>
         <p>Upgrade to PRO</p>

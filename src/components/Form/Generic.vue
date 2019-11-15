@@ -7,41 +7,38 @@
             <div class="md-layout-item md-small-size-90 md-size-90">
               <md-field slot="content">
                 <label>คำถาม</label>
-                <md-input v-model="password" type="text"></md-input>
+                <md-input type="text"></md-input>
               </md-field>
 
-                <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
+              <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
                 <md-button id="btn" class="md-success md-icon-button md-dense" @click="addRow">
                   <md-icon>add_box</md-icon>
                   <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
                 </md-button>
-                </div>
-                <!-- <md-button id="btn" class="md-danger md-icon-button md-dense" @click="deleteRow(index)">
+              </div>
+              <!-- <md-button id="btn" class="md-danger md-icon-button md-dense" @click="deleteRow(index)">
                   <md-icon>delete</md-icon>
                   <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
-                </md-button> -->
-              
+              </md-button>-->
 
               <ul>
                 <li v-for="(input, index) in inputs" :key="input.id">
                   <md-field>
                     <label>เพิ่มรูปภาพ</label>
                     <md-file v-model="single" />
-                    <md-input type="text" v-model="input.one" ></md-input>
+                    <md-input type="text" v-model="input.one"></md-input>
                     <!-- - {{ input.one }} -->
                   </md-field>
                   <md-field>
                     <md-icon>radio_button_checked</md-icon>
                     <label>ระบุคำตอบ</label>
-                    <md-input type="text" v-model="input.two" ></md-input>
+                    <md-input type="text" v-model="input.two"></md-input>
                     <!-- - {{ input.two }} -->
-                    <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
-                    <md-button id="btn" class="md-success md-icon-button md-dense" @click="addRow">
-                      <md-icon>add_box</md-icon>
-                      <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
-                    </md-button>
-                    </div>
-                    <md-button id="btn" class="md-danger md-icon-button md-dense" @click="deleteRow(index)">
+                    <md-button
+                      id="btn"
+                      class="md-danger md-icon-button md-dense"
+                      @click="deleteRow(index)"
+                    >
                       <md-icon>delete</md-icon>
                       <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
                     </md-button>
@@ -51,8 +48,7 @@
                   - {{ input.one }}
                   <input type="text" v-model="input.two" />
                   - {{ input.two }}
-                  <button @click="deleteRow(index)">Delete</button> -->
-                  
+                  <button @click="deleteRow(index)">Delete</button>-->
                 </li>
               </ul>
             </div>
@@ -175,21 +171,18 @@ export default {
     value: null,
     showDialog: false,
     iii: 0
-    
   }),
   methods: {
     addRow() {
       this.inputs.push({
-        one: '',
-        two: '',
-      })
-      this.iii = this.iii+1;
-      
+        one: "",
+        two: ""
+      });
+      this.iii = this.iii + 1;
     },
     deleteRow(index) {
-      this.inputs.splice(index,1)
-      this.iii = this.iii-1;
-      
+      this.inputs.splice(index, 1);
+      this.iii = this.iii - 1;
     },
     onConfirm() {
       this.value = "Agreed";

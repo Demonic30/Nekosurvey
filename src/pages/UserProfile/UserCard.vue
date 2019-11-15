@@ -16,7 +16,7 @@
               </md-button>
               <p>Download Replies</p>
             </center>
-            <md-switch v-model="switch1">Open to answer</md-switch>
+            <md-switch >Open to answer</md-switch>
           </div>
         </div>
       </form>

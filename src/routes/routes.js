@@ -3,7 +3,7 @@ import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
 import Login from "@/pages/Login.vue";
 import Home from "@/pages/Home.vue";
 import Form from "@/pages/Form.vue";
-import Feedback from "@/pages/Feedback.vue";
+import CreateForm from "@/pages/CreateForm.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import TableList from "@/pages/TableList.vue";
@@ -40,9 +40,9 @@ const routes = [
         component: Form
       },
       {
-        path: "feedback",
-        name: "Feedback",
-        component: Feedback
+        path: "createform",
+        name: "CreateForm",
+        component: CreateForm
       },
       {
         path: "dashboard",

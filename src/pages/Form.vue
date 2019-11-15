@@ -7,7 +7,7 @@
         <nav-tabs-card>
           <md-tabs class="md-accent" md-alignment="centered">
             <md-tab id="tab-home" md-label="Question" md-icon="question_answer">
-              <edit-profile-form data-background-color="purple"></edit-profile-form>
+              <update-form></update-form>
             </md-tab>
 
             <md-tab id="tab-pages" md-label="Feedback" md-icon="feedback">
@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import { EditProfileForm, UserCard } from "@/pages";
+import { UpdateForm, UserCard } from "@/pages";
 
 export default {
   components: {
-    EditProfileForm,
+    UpdateForm,
     UserCard
   }
 };
