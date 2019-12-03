@@ -10,11 +10,12 @@
                   <div class="md-layout-item">
                     <md-field class="md-primary">
                       <label>ชื่อฟอร์ม</label>
-                      <md-input></md-input>
+                      <md-input v-model="formName"></md-input>
                     </md-field>
+                    {{formName}}
                     <md-field>
                       <label>คำอธิบายแบบฟอร์ม</label>
-                      <md-input></md-input>
+                      <md-input v-model="formDes"></md-input>
                       <span class="md-helper-text"></span>
                     </md-field>
                   </div>
@@ -58,15 +59,21 @@
                                     <div class="md-layout-item md-small-size-40 md-size-40">
                                       <md-field slot="content">
                                         <label>เพิ่มรูปภาพ</label>
-                                        <md-file v-model="input.one" />
-                                        <md-input v-model="input.one" type="text"></md-input>
+                                        <md-file
+                                          v-model="input.one"
+                                          @input="addImg(input.one,index)"
+                                        />
                                       </md-field>
                                     </div>
                                     <div class="md-layout-item md-small-size-45 md-size-45">
                                       <md-field slot="content">
                                         <md-icon>radio_button_checked</md-icon>
                                         <label>ระบุคำตอบ</label>
-                                        <md-input v-model="input.two" type="text"></md-input>
+                                        <md-input
+                                          v-model="input.two"
+                                          @input="addAns(input.two,index)"
+                                          type="text"
+                                        ></md-input>
                                       </md-field>
                                     </div>
                                     <div class="md-layout-item md-small-size-15 md-size-15">
@@ -88,6 +95,7 @@
                                   <button @click="deleteRow(index)">Delete</button>-->
                                 </li>
                               </ul>
+                              {{ Question }}
                             </div>
 
                             <div class="md-layout-item md-small-size-10 md-size-10">
@@ -242,8 +250,9 @@ import Vue from "vue";
 import Generic from "@/components/Form/Generic";
 import GenericNot from "@/components/Form/GenericNot";
 // import QuickReply from "@/components/Form/QuickReply";
-
+import {store} from '../store/store.js'
 export default {
+  store,
   name: "create-form",
   components: { Generic, GenericNot },
   props: {
@@ -252,15 +261,62 @@ export default {
       default: "purple"
     }
   },
-  name: "DialogConfirm",
+   created: function () {
+      const store = this.$store;
+     // register a new module only if doesn't exist
+     if (!(store && store.state && store.state[name])) {
+        store.registerModule(name, commonModule);
+      } else {
+        // re-use the already existing module
+        console.log(`reusing module: ${name}`);
+      }
+    },
   data: () => ({
+    formName: null,
+    formDes: null,
     inputs: [],
     active: false,
     value: null,
     showDialog: false,
-    iii: 0
+    iii: 0,
+    Question:{}
   }),
   methods: {
+    addImg(img, i) {
+      switch (i) {
+        case 0:
+          this.Question.image1 = img;
+          break;
+        case 1:
+          this.Question.image2 = img;
+          break;
+        case 2:
+          this.Question.image3 = img;
+          break;
+        case 3:
+          this.Question.image4 = img;
+          break;
+      }
+      console.log(this.Question);
+
+      this.store.commit("SET_QUESTION", this.Question);
+    },
+    addAns(ans, i) {
+      switch (i) {
+        case 0:
+          this.Question.answer1 = ans;
+          break;
+        case 1:
+          this.Question.answer2 = ans;
+          break;
+        case 2:
+          this.Question.answer3 = ans;
+          break;
+        case 3:
+          this.Question.answer4 = ans;
+          break;
+      }
+    },
     addRow() {
       this.inputs.push({
         one: "",
@@ -302,7 +358,7 @@ export default {
       });
       instance.$slots.default = ["Click me!"];
       instance.$mount(); // pass nothing
-      //         console.log(this.$refs)
+      console.log(this.$refs);
       this.$refs.container.appendChild(instance.$el);
     },
     onClickGenericNot() {
@@ -312,7 +368,7 @@ export default {
       });
       instance.$slots.default = ["Click me!"];
       instance.$mount(); // pass nothing
-      //         console.log(this.$refs)
+      console.log(this.$refs);
       this.$refs.container.appendChild(instance.$el);
     }
     // onClickQuickReply() {

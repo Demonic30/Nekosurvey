@@ -1,8 +1,8 @@
 <template>
   <div>
     
-       <button @click="getTitle()">get User from API</button> <br>
-    {{title[0]}}
+       <button @click="getForm()">get User from API</button> <br>
+    {{form}}
     <h1>5555</h1>
     <!-- {{modules}} -->
       </div>
@@ -17,13 +17,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      getTitle: 'getTitle'
+      getForm: 'getForm'
     })
   },
   computed: {
     ...mapState({
       title: state => state.title,
-      modules: modules => modules
+      modules: modules => modules,
+      form: state=> state.form
     })
   }
 }

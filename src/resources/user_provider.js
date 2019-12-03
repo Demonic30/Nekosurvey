@@ -17,6 +17,8 @@ class UserProvider extends HttpRequest {
     return data
   }
   async getForm (num) {
+    console.log(num+"   5555");
+    
     // example path https://api.myjson.com/bins/17k39m/
     const {data} = await this.get('/api/questions/'+num)
     return data

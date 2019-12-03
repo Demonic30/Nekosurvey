@@ -14,11 +14,12 @@ const modules = {
 }
 
 const state = {
-  from:{},
+  
   number:0,
+  forms:{},
   title:{},
   user: {},
-  question: [{}]
+  question: {}
 }
 
 const actions = {
@@ -74,7 +75,7 @@ const mutations = {
     state.number = data
   }, 
   SET_FORM(state, data) {
-    state.from = data
+    state.forms = data
   }, 
   
 }

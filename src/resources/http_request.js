@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 class HttpRequest {
-  constructor (url = 'https://apinekosurvey.herokuapp.com/api/questions') {
+  constructor (url = 'https://apinekosurvey.herokuapp.com/') {
     // this.axios = axios
     this.axiosInstance = axios.create({
       baseURL: url,

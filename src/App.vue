@@ -3,5 +3,8 @@
 </template>
 
 <script>
-export default {};
+import {store} from "./store/store.js"
+export default {
+  store
+};
 </script>

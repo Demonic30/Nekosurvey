@@ -21,27 +21,25 @@
             <center>
               <h4>Latest form</h4>
             </center>
-            <div class="elevation-demo">
-              <md-content
-                v-for="(item, index) in title"
-                :key="index"
-                class="md-elevation md-primary"
-              >
+            <div class="elevation-demo md-primary">
+              <md-content v-for="(item, index) in title" :key="index" class="md-elevation md-primary">
                 <md-card class="card">
-                  <md-card-media>
-                    <img :src="title[index].icon" alt="People" />
-                  </md-card-media>
+                  <center>
+                    <md-card-media class="md-img">
+                      <img :src="title[index].icon" alt="People" />
+                    </md-card-media>
+                  </center>
 
-                  <md-card-header>
+                  <md-card-header class="md-text">
                     <div class="md-title">{{title[index].name}}</div>
                     <div class="md-subhead">{{title[index].description}}</div>
                   </md-card-header>
 
                   <md-card-expand>
-                    <md-card-actions md-alignment="space-between">                    
-                        <div>
-                          <md-button to="/form" @click="getForm(title[index].number)">Action</md-button>
-                        </div>
+                    <md-card-actions md-alignment="space-between">
+                      <div>
+                        <md-button @click="setNum(title[index].number)">Action</md-button>
+                      </div>
                     </md-card-actions>
                   </md-card-expand>
                 </md-card>
@@ -71,14 +69,14 @@ export default {
   computed: {
     ...mapState({
       title: state => state.title,
-      number:state => state.number
+      number: state => state.number
     })
   },
   methods: {
-    getForm(data){
-      this.$store.commit('SET_NUM',data)
+    setNum(data) {
+      this.$store.commit("SET_NUM", data), this.$router.push("form");
     }
-  },
+  }
 };
 </script>
 
@@ -87,11 +85,25 @@ export default {
   padding: 16px;
   display: flex;
   flex-wrap: wrap;
+  text-overflow: ellipsis;
+}
+.md-title {
+  font-size: 1em;
+  line-height: 1em;
+  height: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+img {
+  width: 200px;
+  height: 400px;
+  object-fit: cover;
+}
 .md-content {
-  width: 300px;
-  height: 265px;
+  width: 350px;
+  height: 300px;
   margin: 38px;
   display: flex;
   align-items: center;
@@ -102,5 +114,14 @@ export default {
   margin: 4px;
   display: inline-block;
   vertical-align: top;
+}
+.md-img {
+  height: 180px;
+  display: inline-block;
+}
+.md-text{
+height: 100px;
+width: 200;
+ 
 }
 </style>

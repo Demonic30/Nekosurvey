@@ -44,6 +44,7 @@
                   </md-field>
                   {{ input }}
                   {{ index }}
+                  <!-- {{ title }} -->
                   <!-- <input type="text" v-model="input.one" />
                   - {{ input.one }}
                   <input type="text" v-model="input.two" />
@@ -51,6 +52,7 @@
                   <button @click="deleteRow(index)">Delete</button>-->
                 </li>
               </ul>
+            
               {{ Q1 }}
             </div>
             <div class="md-layout-item md-small-size-10 md-size-10">
@@ -98,7 +100,7 @@
             <md-button
               id="btn"
               class="md-simple md-icon-button md-dense"
-              @click="onClickQuickReply"
+              @click="addQuestion"
             >
               <md-icon>library_add</md-icon>
               <md-tooltip md-direction="bottom">เพิ่มคำถาม</md-tooltip>
@@ -160,11 +162,13 @@ import Vue from "vue";
 // import Text from "@/components/Form/Text";
 import QuickReply from "@/components/Form/QuickReply";
 import { mapState, mapMutations, mapActions } from 'vuex';
+import {store} from '../../store/store.js'
 
 export default {
+ store,
   name: "Generic",
   components: { QuickReply },
-  name: "DialogConfirm",
+  // name: "DialogConfirm",
 
   data: () => ({
     inputs: [],
@@ -172,19 +176,15 @@ export default {
     value: null,
     showDialog: false,
     iii: 0,
-    image1: null,
-    image2: null,
-    number: 4,
-    question: null,
-    question_type: "generic",
-    answer1: null,
-    answer2: null,
-    no_question: 1,
-    status: 0,
     Q1: {}
   }),
+  mounted(){
+    console.log(this.$store +" 5555555555555555");
+  },
   methods: {
+    
     addImg(img, i) {
+      
       switch (i) {
         case 0:
           this.Q1.image1 = img;
@@ -199,7 +199,9 @@ export default {
           this.Q1.image4 = img;
           break;
       }
-      this.$store.commit('setQuestion', this.Q1)
+      console.log(this.Q1);
+      
+    this.store.commit('SET_QUESTION',"this.Q1");
     },
     addAns(ans, i) {
       switch (i) {
@@ -256,6 +258,17 @@ export default {
     //   this.$refs.container.appendChild(instance.$el);
     // },
     onClickQuickReply() {
+      var ComponentClass = Vue.extend(QuickReply);
+      var instance = new ComponentClass({
+        propsData: { type: "primary" }
+      });
+      instance.$slots.default = ["Click me!"];
+      instance.$mount(); // pass nothing
+      //         console.log(this.$refs)
+      this.$refs.container.appendChild(instance.$el);
+    },
+    addQuestion(){
+      this.$index.commit('SET_QUESTION',this.Q1);
       var ComponentClass = Vue.extend(QuickReply);
       var instance = new ComponentClass({
         propsData: { type: "primary" }
