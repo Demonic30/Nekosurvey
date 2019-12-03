@@ -26,7 +26,7 @@
                 <md-card class="card">
                   <center>
                     <md-card-media class="md-img">
-                      <img :src="title[index].icon" alt="People" />
+                      <img :src="title[index].icon" alt="People" class="responsive" />
                     </md-card-media>
                   </center>
 
@@ -95,15 +95,24 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.md-subhead{
+  font-size: 1em;
+  line-height: 1em;
+  height: 1em;
+  
+  text-overflow: ellipsis;
+}
 
 img {
-  width: 200px;
-  height: 400px;
+  width: 100%;
+  max-width: 300px;
+  max-height: 155px;
+  height: auto;
   object-fit: cover;
 }
 .md-content {
   width: 350px;
-  height: 300px;
+  height: 350px;
   margin: 38px;
   display: flex;
   align-items: center;
