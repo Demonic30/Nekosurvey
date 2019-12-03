@@ -120,7 +120,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.user
+      user: state => state.user,
+      form: state => state.form
     })
   },
 };

@@ -19,7 +19,7 @@ import VueRouter from "vue-router";
 import App from "./App";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
-import store from './store'
+import store from './store/index'
 
 
 // router setup

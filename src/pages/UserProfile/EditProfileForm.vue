@@ -24,7 +24,7 @@
                   <div class="md-layout-item md-small-size-90 md-size-90">
                     <md-field slot="content">
                       <label>คำถาม</label>
-                      <md-input type="text" v-model="question"></md-input>
+                      <md-input type="text" ></md-input>
                     </md-field>
                     <div class="md-layout">
                       <div class="md-layout-item md-small-size-40 md-size-40"></div>
@@ -108,7 +108,7 @@
                         <md-menu-item>
                           <md-button
                             class="md-simple md-sm"
-                            @click="onClickGeneric"
+                            @click="onClickGenericNot"
                             v-on:click="close"
                           >
                             <md-icon>insert_photo</md-icon>ตัวเลือกประกอบรูปภาพ
@@ -163,7 +163,7 @@
               <md-button
                 class="md-primary md-raised"
                 @click="active = true"
-                v-on:click="createForm"
+                
               >Confirm</md-button>
             </center>
             <!-- <button @click="getUser()">get User from API</button>
@@ -232,48 +232,21 @@ import { mapActions, mapState } from "vuex";
 import Vue from "vue";
 // import Text from "@/components/Form/Text";
 import Generic from "@/components/Form/Generic";
+import GenericNot from "@/components/Form/GenericNot";
 // import QuickReply from "@/components/Form/QuickReply";
 
 export default {
   // store,
   name: "edit-profile-form",
-  components: { Generic },
+  components: { Generic, GenericNot },
   props: {
     dataBackgroundColor: {
       type: String,
       default: ""
     }
   },
-  data: function() {
-    return {
-      image1: inputs.one,
-      image2: inputs.one,
-      image3: inputs.one,
-      image4: inputs.one,
-      number: number,
-      question: question,
-      question_type: question_type,
-      answer1: inputs.two,
-      answer2: inputs.two,
-      answer3: inputs.two,
-      answer4: inputs.two,
-      no_question: no_question
-    };
-  },
   name: "DialogConfirm",
   data: () => ({
-    image1: "",
-    image2: "",
-    image3: "",
-    image4: "",
-    number: 4,
-    question: "",
-    question_type: "quick_reply",
-    answer1: "",
-    answer2: "",
-    answer3: "",
-    answer4: "",
-    no_question: 1,
     inputs: [],
     active: false,
     value: null,
@@ -281,11 +254,6 @@ export default {
     iii: 0
   }),
   methods: {
-    ...mapActions({
-      getUser: "getUser",
-      createForm: "createForm"
-    }),
-
     addRow() {
       this.inputs.push({
         one: "",
@@ -302,16 +270,6 @@ export default {
     // }),
     onConfirm() {
       this.value = "Agreed";
-
-      axios
-        .post("http://jsonplaceholder.typicode.com/posts", {
-          title: this.postTitle,
-          body: this.postBody
-        })
-        .then(response => {})
-        .catch(e => {
-          console.error(e);
-        });
     },
     onCancel() {
       this.value = "Disagreed";
@@ -332,6 +290,16 @@ export default {
     // },
     onClickGeneric() {
       var ComponentClass = Vue.extend(Generic);
+      var instance = new ComponentClass({
+        propsData: { type: "primary" }
+      });
+      instance.$slots.default = ["Click me!"];
+      instance.$mount(); // pass nothing
+      //         console.log(this.$refs)
+      this.$refs.container.appendChild(instance.$el);
+    },
+    onClickGenericNot() {
+      var ComponentClass = Vue.extend(GenericNot);
       var instance = new ComponentClass({
         propsData: { type: "primary" }
       });

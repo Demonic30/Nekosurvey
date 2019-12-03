@@ -14,32 +14,32 @@ const modules = {
 }
 
 const state = {
+  from:{},
+  number:0,
+  title:{},
   user: {},
-  question: [
-    {
-      image1: '',
-      image2: '',
-      image3: '',
-      image4: '',
-      number: 4,
-      question: '',
-      question_type: '',
-      answer1: '',
-      answer2: '',
-      answer3: '',
-      answer4: '',
-      no_question: '',
-      status: 0,
-    }
-  ]
- 
+  question: [{}]
 }
 
 const actions = {
   async getUser ({commit}) {
     const data = await userService.getUser()
-    commit('SET_USER', data)
+    commit('SET_USER', data.data)
   },
+  async getTitle ({commit}) {
+    const data = await userService.getTitle()
+    commit('SET_TITLE', data.data)
+  },
+  async getQuestion ({commit}) {
+    const data = await userService.getQuestion()
+    commit('SET_QUESTION', data.data)
+  },
+  
+  async getForm ({commit}) {
+    const data = await userService.getForm(state.number)
+    commit('SET_FORM', data.data)
+  },
+  
   createForm: function () {
     axios
       .post('https://apinekosurvey.herokuapp.com/api/question', {
@@ -63,12 +63,26 @@ const actions = {
 const mutations = {
   SET_USER (state, data) {
     state.user = data
-  }
+  },
+  SET_QUESTION(state, data){
+    state.question = state.question.push(data)
+  },
+  SET_TITLE(state, data) {
+    state.title = data
+  }, 
+  SET_NUM(state, data) {
+    state.number = data
+  }, 
+  SET_FORM(state, data) {
+    state.from = data
+  }, 
+  
 }
 
 export default new Vuex.Store({
   modules,
   state,
   actions,
-  mutations
+  mutations,
+  
 })

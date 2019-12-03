@@ -7,43 +7,54 @@
             <div class="md-layout-item md-small-size-90 md-size-90">
               <md-field slot="content">
                 <label>คำถาม</label>
-                <md-input type="text"></md-input>
+                <md-input  type="text"></md-input>
               </md-field>
-
-              <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
-                <md-button id="btn" class="md-success md-icon-button md-dense" @click="addRow">
-                  <md-icon>add_box</md-icon>
-                  <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
-                </md-button>
+              <div class="md-layout">
+                <div class="md-layout-item md-small-size-40 md-size-40"></div>
+                <div class="md-layout-item md-small-size-45 md-size-45"></div>
+                <div class="md-layout-item md-small-size-15 md-size-15">
+                  <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
+                    <md-button id="btn" class="md-success md-icon-button md-dense" @click="addRow">
+                      <md-icon>add_box</md-icon>
+                      <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
+                    </md-button>
+                    <!-- <md-button id="btn" class="md-danger md-icon-button md-dense">
+                    <md-icon>delete</md-icon>
+                    <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
+                    </md-button>-->
+                  </div>
+                </div>
               </div>
-              <!-- <md-button id="btn" class="md-danger md-icon-button md-dense" @click="deleteRow(index)">
-                  <md-icon>delete</md-icon>
-                  <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
-              </md-button>-->
 
               <ul>
                 <li v-for="(input, index) in inputs" :key="input.id">
-                  <md-field>
-                    <label>เพิ่มรูปภาพ</label>
-                    <md-file @input="addImg(input.one,index)" v-model="input.one" />
-                    - {{ input.one }}
-                  </md-field>
-                  <md-field>
-                    <md-icon>radio_button_checked</md-icon>
-                    <label>ระบุคำตอบ</label>
-                    <md-input type="text" @input="addAns(input.two,index)" v-model="input.two"></md-input>
-                    - {{ input.two }}
-                    <md-button
-                      id="btn"
-                      class="md-danger md-icon-button md-dense"
-                      @click="deleteRow(index)"
-                    >
-                      <md-icon>delete</md-icon>
-                      <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
-                    </md-button>
-                  </md-field>
-                  {{ input }}
-                  {{ index }}
+                  <div class="md-layout">
+                    <div class="md-layout-item md-small-size-40 md-size-40">
+                      <md-field slot="content">
+                        <label>เพิ่มรูปภาพ</label>
+                        <md-file v-model="single" />
+                        <md-input v-model="input.one" type="text"></md-input>
+                      </md-field>
+                    </div>
+                    <div class="md-layout-item md-small-size-45 md-size-45">
+                      <md-field slot="content">
+                        <md-icon>radio_button_checked</md-icon>
+                        <label>ระบุคำตอบ</label>
+                        <md-input v-model="input.two" type="text"></md-input>
+                      </md-field>
+                    </div>
+                    <div class="md-layout-item md-small-size-15 md-size-15">
+                      <md-button
+                        id="btn"
+                        class="md-danger md-icon-button md-dense"
+                        @click="deleteRow(index)"
+                      >
+                        <md-icon>delete</md-icon>
+                        <md-tooltip md-direction="bottom">ลบคำตอบ</md-tooltip>
+                      </md-button>
+                    </div>
+                  </div>
+
                   <!-- <input type="text" v-model="input.one" />
                   - {{ input.one }}
                   <input type="text" v-model="input.two" />
@@ -51,8 +62,8 @@
                   <button @click="deleteRow(index)">Delete</button>-->
                 </li>
               </ul>
-              {{ Q1 }}
             </div>
+
             <div class="md-layout-item md-small-size-10 md-size-10">
               <md-menu md-size="medium" md-align-trigger>
                 <md-button class="md-primary md-just-icon md-round" md-menu-trigger>
@@ -74,16 +85,12 @@
                       </md-button>
                   </md-menu-item>-->
                   <md-menu-item>
-                    <md-button class="md-simple md-sm">
+                    <md-button class="md-simple md-sm" @click="onClickGenericNot" v-on:click="close">
                       <md-icon>insert_photo</md-icon>ตัวเลือกประกอบรูปภาพ
                     </md-button>
                   </md-menu-item>
                   <md-menu-item>
-                    <md-button
-                      class="md-simple md-sm"
-                      @click="onClickQuickReply"
-                      v-on:click="close"
-                    >
+                    <md-button class="md-simple md-sm">
                       <md-icon>radio_button_checked</md-icon>ตัวเลือกข้อความ
                     </md-button>
                   </md-menu-item>
@@ -95,22 +102,15 @@
 
         <md-card-actions md-alignment="right">
           <slot name="footer">
-            <md-button
-              id="btn"
-              class="md-simple md-icon-button md-dense"
-              @click="onClickQuickReply"
-            >
+            <md-button id="btn" class="md-simple md-icon-button md-dense" @click="onClickGeneric">
               <md-icon>library_add</md-icon>
               <md-tooltip md-direction="bottom">เพิ่มคำถาม</md-tooltip>
             </md-button>
             <!-- <md-button id="btn" class="md-simple md-icon-button md-dense">
-          <md-icon>file_copy</md-icon>
-          <md-tooltip md-direction="bottom">คัดลอกคำถาม</md-tooltip>
+                <md-icon>file_copy</md-icon>
+                <md-tooltip md-direction="bottom">คัดลือกคำถาม</md-tooltip>
             </md-button>-->
-            <md-button id="btn" class="md-simple md-icon-button md-dense" v-on:click="close">
-              <md-icon>delete</md-icon>
-              <md-tooltip md-direction="bottom">ลบคำถาม</md-tooltip>
-            </md-button>
+            
           </slot>
         </md-card-actions>
 
@@ -120,11 +120,11 @@
             <br />
             <md-tabs class="md-accent" md-alignment="centered">
               <!-- <md-tab id="tab-home" md-label="ข้อความสั้นๆ" md-icon="short_text">
-                <center>
-                  <div class="md-card-img">
-                    <img src="@/assets/img/11.png" alt="Cover" />
-                  </div>
-                </center>
+              <center>
+                <div class="md-card-img">
+                  <img src="@/assets/img/11.png" alt="Cover" />
+                </div>
+              </center>
               </md-tab>-->
 
               <md-tab id="tab-pages" md-label="ตัวเลือกประกอบรูปภาพ" md-icon="insert_photo">
@@ -153,70 +153,27 @@
     </div>
   </div>
 </template>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
 
 <script>
 import Vue from "vue";
 // import Text from "@/components/Form/Text";
-import QuickReply from "@/components/Form/QuickReply";
-import { mapState, mapMutations, mapActions } from 'vuex';
+import GenericNot from "@/components/Form/GenericNot";
+import Generic from "@/components/Form/Generic";
 
 export default {
-  name: "Generic",
-  components: { QuickReply },
+  name: "QuickReplyNot",
+  components: { GenericNot,Generic },
   name: "DialogConfirm",
-
   data: () => ({
     inputs: [],
     active: false,
     value: null,
     showDialog: false,
-    iii: 0,
-    image1: null,
-    image2: null,
-    number: 4,
-    question: null,
-    question_type: "generic",
-    answer1: null,
-    answer2: null,
-    no_question: 1,
-    status: 0,
-    Q1: {}
+    iii: 0
   }),
   methods: {
-    addImg(img, i) {
-      switch (i) {
-        case 0:
-          this.Q1.image1 = img;
-          break;
-        case 1:
-          this.Q1.image2 = img;
-          break;
-        case 2:
-          this.Q1.image3 = img;
-          break;
-        case 3:
-          this.Q1.image4 = img;
-          break;
-      }
-      this.$store.commit('setQuestion', this.Q1)
-    },
-    addAns(ans, i) {
-      switch (i) {
-        case 0:
-          this.Q1.answer1 = ans;
-          break;
-        case 1:
-          this.Q1.answer2 = ans;
-          break;
-        case 2:
-          this.Q1.answer3 = ans;
-          break;
-        case 3:
-          this.Q1.answer4 = ans;
-          break;
-      }
-    },
     addRow() {
       this.inputs.push({
         one: "",
@@ -236,14 +193,12 @@ export default {
     },
     close() {
       this.$refs.change.remove();
-
-      // // destroy the vue listeners, etc
+      // this.$root.$el.parentNode.removeChild(this.$root.$el);
+      // destroy the vue listeners, etc
+      // this.$delete();
       // this.$destroy();
-      // // document.getElementById('change').$destroy();
       // // remove the element from the DOM
-      // // this.$root.$el.parentNode.removeChild(this.$root.$el);
-
-      // this.$el.parentNode.removeChild(this.$el('.change'));
+      // this.$el.parentNode.removeChild('.change');
     },
     //  onClickText() {
     //   var ComponentClass = Vue.extend(Text);
@@ -255,8 +210,18 @@ export default {
     //   //         console.log(this.$refs)
     //   this.$refs.container.appendChild(instance.$el);
     // },
-    onClickQuickReply() {
-      var ComponentClass = Vue.extend(QuickReply);
+    onClickGenericNot() {
+      var ComponentClass = Vue.extend(GenericNot);
+      var instance = new ComponentClass({
+        propsData: { type: "primary" }
+      });
+      instance.$slots.default = ["Click me!"];
+      instance.$mount(); // pass nothing
+      //         console.log(this.$refs)
+      this.$refs.container.appendChild(instance.$el);
+    },
+    onClickGeneric() {
+      var ComponentClass = Vue.extend(Generic);
       var instance = new ComponentClass({
         propsData: { type: "primary" }
       });

@@ -34,10 +34,21 @@
 import { UpdateForm, UserCard } from "@/pages";
 
 export default {
+  name: "edit-form",
+  //  props: {
+  //   dataNumber: {
+  //     type: String,
+  //     default: ""
+  //   }
+  // },
   components: {
     UpdateForm,
     UserCard
-  }
+  },
+   mounted() {
+    this.$store.dispatch("getForm");
+  },
+
 };
 </script>
 

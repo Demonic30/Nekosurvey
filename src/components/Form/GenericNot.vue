@@ -25,13 +25,13 @@
                 <li v-for="(input, index) in inputs" :key="input.id">
                   <md-field>
                     <label>เพิ่มรูปภาพ</label>
-                    <md-file @input="addImg(input.one,index)" v-model="input.one" />
+                    <md-file class="text" @input="addImg(input.one,index)" v-model="input.one" />
                     - {{ input.one }}
                   </md-field>
                   <md-field>
                     <md-icon>radio_button_checked</md-icon>
                     <label>ระบุคำตอบ</label>
-                    <md-input type="text" @input="addAns(input.two,index)" v-model="input.two"></md-input>
+                    <md-input class="text" @input="addAns(input.two,index)" v-model="input.two"></md-input>
                     - {{ input.two }}
                     <md-button
                       id="btn"
@@ -51,7 +51,6 @@
                   <button @click="deleteRow(index)">Delete</button>-->
                 </li>
               </ul>
-              {{ Q1 }}
             </div>
             <div class="md-layout-item md-small-size-10 md-size-10">
               <md-menu md-size="medium" md-align-trigger>
@@ -81,7 +80,7 @@
                   <md-menu-item>
                     <md-button
                       class="md-simple md-sm"
-                      @click="onClickQuickReply"
+                      @click="onClickQuickReplyNot"
                       v-on:click="close"
                     >
                       <md-icon>radio_button_checked</md-icon>ตัวเลือกข้อความ
@@ -107,10 +106,6 @@
           <md-icon>file_copy</md-icon>
           <md-tooltip md-direction="bottom">คัดลอกคำถาม</md-tooltip>
             </md-button>-->
-            <md-button id="btn" class="md-simple md-icon-button md-dense" v-on:click="close">
-              <md-icon>delete</md-icon>
-              <md-tooltip md-direction="bottom">ลบคำถาม</md-tooltip>
-            </md-button>
           </slot>
         </md-card-actions>
 
@@ -127,7 +122,7 @@
                 </center>
               </md-tab>-->
 
-              <md-tab id="tab-pages" md-label="ตัวเลือกประกอบรูปภาพ" md-icon="insert_photo">
+              <md-tab md-label="ตัวเลือกประกอบรูปภาพ" md-icon="insert_photo">
                 <center>
                   <div class="md-card-img">
                     <img src="@/assets/img/2.png" alt="Cover" />
@@ -135,7 +130,7 @@
                 </center>
               </md-tab>
 
-              <md-tab id="tab-posts" md-label="ตัวเลือกข้อความ" md-icon="radio_button_checked">
+              <md-tab md-label="ตัวเลือกข้อความ" md-icon="radio_button_checked">
                 <center>
                   <div class="md-card-img">
                     <img src="@/assets/img/3.png" alt="Cover" />
@@ -145,7 +140,9 @@
             </md-tabs>
 
             <md-dialog-actions>
-              <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+              <md-button class="md-primary" @click="showDialog = false">
+                <h5>Close</h5>
+              </md-button>
             </md-dialog-actions>
           </md-dialog>
         </div>
@@ -158,12 +155,13 @@
 <script>
 import Vue from "vue";
 // import Text from "@/components/Form/Text";
+
+import QuickReplyNot from "@/components/Form/QuickReplyNot";
 import QuickReply from "@/components/Form/QuickReply";
-import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
-  name: "Generic",
-  components: { QuickReply },
+  name: "GenericNot",
+  components: { QuickReplyNot, QuickReply },
   name: "DialogConfirm",
 
   data: () => ({
@@ -199,7 +197,6 @@ export default {
           this.Q1.image4 = img;
           break;
       }
-      this.$store.commit('setQuestion', this.Q1)
     },
     addAns(ans, i) {
       switch (i) {
@@ -257,6 +254,16 @@ export default {
     // },
     onClickQuickReply() {
       var ComponentClass = Vue.extend(QuickReply);
+      var instance = new ComponentClass({
+        propsData: { type: "primary" }
+      });
+      instance.$slots.default = ["Click me!"];
+      instance.$mount(); // pass nothing
+      //         console.log(this.$refs)
+      this.$refs.container.appendChild(instance.$el);
+    },
+    onClickQuickReplyNot() {
+      var ComponentClass = Vue.extend(QuickReplyNot);
       var instance = new ComponentClass({
         propsData: { type: "primary" }
       });

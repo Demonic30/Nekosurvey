@@ -1,7 +1,10 @@
 <template>
   <div>
-       <button @click="getUser()">get User from API</button> <br>
-    {{user}}
+    
+       <button @click="getTitle()">get User from API</button> <br>
+    {{title[0]}}
+    <h1>5555</h1>
+    <!-- {{modules}} -->
       </div>
     
 </template>
@@ -14,12 +17,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      getUser: 'getUser'
+      getTitle: 'getTitle'
     })
   },
   computed: {
     ...mapState({
-      user: state => state.user
+      title: state => state.title,
+      modules: modules => modules
     })
   }
 }
