@@ -10,14 +10,18 @@
                   <div class="md-layout-item">
                     <md-field class="md-primary">
                       <label>ชื่อฟอร์ม</label>
-                      <md-input v-model="formName"></md-input>
+                      <md-input v-model="formName" @input="addtitle()"></md-input>
                     </md-field>
-                    {{formName}}
                     <md-field>
                       <label>คำอธิบายแบบฟอร์ม</label>
-                      <md-input v-model="formDes"></md-input>
+                      <md-input v-model="formDes" @input="addtitleDes()"></md-input>
                       <span class="md-helper-text"></span>
+                      
                     </md-field>
+                    <md-field>
+                    <label>เพิ่มรูปภาพ</label>
+                      <md-file v-model="icon" @input="addIcon()" />
+                      </md-field>
                   </div>
                 </md-card-header>
 
@@ -26,17 +30,24 @@
                     <div ref="change">
                       <md-card>
                         <md-card-content>
+                          <label>- คำถามรูปแบบตัวเลือกข้อความ</label>
                           <div class="md-layout">
                             <div class="md-layout-item md-small-size-90 md-size-90">
                               <md-field slot="content">
                                 <label>คำถาม</label>
-                                <md-input type="text"></md-input>
+                                <md-input
+                                  type="text"
+                                  v-model="QestionName"
+                                  @input="addQuestion(QestionName)"
+                                ></md-input>
                               </md-field>
                               <div class="md-layout">
                                 <div class="md-layout-item md-small-size-40 md-size-40"></div>
                                 <div class="md-layout-item md-small-size-45 md-size-45"></div>
                                 <div class="md-layout-item md-small-size-15 md-size-15">
-                                  <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
+                                  <div
+                                    v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3 || iii == 4 || iii == 5 || iii == 6 || iii == 7 || iii == 8 || iii == 9"
+                                  >
                                     <md-button
                                       id="btn"
                                       class="md-success md-icon-button md-dense"
@@ -60,7 +71,8 @@
                                       <md-field slot="content">
                                         <label>เพิ่มรูปภาพ</label>
                                         <md-file
-                                          v-model="input.one"
+                                          v-model="filess"
+                                          v-on:change="addImg"
                                           @input="addImg(input.one,index)"
                                         />
                                       </md-field>
@@ -95,7 +107,7 @@
                                   <button @click="deleteRow(index)">Delete</button>-->
                                 </li>
                               </ul>
-                              {{ Question }}
+                              {{ question }}
                             </div>
 
                             <div class="md-layout-item md-small-size-10 md-size-10">
@@ -243,6 +255,15 @@
   </div>
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="/__/firebase/7.5.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/7.5.0/firebase-analytics.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
 <script>
 import { mapActions, mapState } from "vuex";
 import Vue from "vue";
@@ -250,7 +271,10 @@ import Vue from "vue";
 import Generic from "@/components/Form/Generic";
 import GenericNot from "@/components/Form/GenericNot";
 // import QuickReply from "@/components/Form/QuickReply";
-import {store} from '../store/store.js'
+import { store } from "../store/store.js";
+import { fireDb } from "../plugin/firebase";
+import { db } from "../plugin/firebase";
+import { storage } from "../plugin/firebase";
 export default {
   store,
   name: "create-form",
@@ -261,17 +285,19 @@ export default {
       default: "purple"
     }
   },
-   created: function () {
-      const store = this.$store;
-     // register a new module only if doesn't exist
-     if (!(store && store.state && store.state[name])) {
-        store.registerModule(name, commonModule);
-      } else {
-        // re-use the already existing module
-        console.log(`reusing module: ${name}`);
-      }
-    },
+  //  created: function () {
+  //     const store = this.$store;
+  //    // register a new module only if doesn't exist
+  //    if (!(store && store.state && store.state[name])) {
+  //       store.registerModule(name, commonModule);
+  //     } else {
+  //       // re-use the already existing module
+  //       console.log(`reusing module: ${name}`);
+  //     }
+  //   },
   data: () => ({
+    icon:null,
+    QestionName: null,
     formName: null,
     formDes: null,
     inputs: [],
@@ -279,27 +305,99 @@ export default {
     value: null,
     showDialog: false,
     iii: 0,
-    Question:{}
-  }),
-  methods: {
-    addImg(img, i) {
-      switch (i) {
-        case 0:
-          this.Question.image1 = img;
-          break;
-        case 1:
-          this.Question.image2 = img;
-          break;
-        case 2:
-          this.Question.image3 = img;
-          break;
-        case 3:
-          this.Question.image4 = img;
-          break;
-      }
-      console.log(this.Question);
+    Question: {},
+    thumbnail:"",
+    filess:"",
+    files: [],
 
-      this.store.commit("SET_QUESTION", this.Question);
+  }),
+  // mounted() {
+  //   var no = store.getters.no_question;
+  //   this.Question.no_question = no;
+  //   this.Question.question_type = "quick_reply";
+  //   this.Question.number = store.getters.num
+  // },
+  methods: {
+    // uploadimage: function(event) {
+    //   //  console.log(event.target.files)
+    //   //   alert(event.target.files)
+    //   var picture = event.target.files[0];
+    //   var storageRef = storage.ref(picture.name);
+    //   storageRef.put(picture);
+    //   this.thumbnail =
+    //     "https://firebasestorage.googleapis.com/v0/b/" +
+    //     "nekosurvey-8d127.appspot.com" +
+    //     "/o/" +
+    //     picture.name +
+    //     "?alt=media";
+    //   console.log(this.thumbnail);
+    // },
+    addIcon(){
+       store.commit("SET_ICON", icon);
+    },
+    addtitle() {
+      store.commit("SET_TITLEINSERT", formName);
+    },
+    addtitleDes() {
+      store.commit("SET_TITLEINSERT", formDes);
+    },
+    addQuestion(data) {
+      this.Question.question = data;
+      var no = store.getters.no_question;
+      this.Question.no_question = no;
+      this.Question.question_type = "quick_reply";
+      this.Question.number = store.getters.num;
+    },
+    addImg(img, i) {
+      var picture = event.target.files[0];
+      var storageRef = storage.ref(picture.name);
+     
+      
+      storageRef.put(picture);
+    
+      this.thumbnail =
+      
+        "https://firebasestorage.googleapis.com/" +
+         "nekosurvey-8d127.appspot.com/" +
+  
+        picture.name ;
+      console.log(this.thumbnail);
+
+      // switch (i) {
+      //   case 0:
+      //     this.Question.image1 = this.thumbnail;
+      //     break;
+      //   case 1:
+      //     this.Question.image2 = img;
+      //     break;
+      //   case 2:
+      //     this.Question.image3 = img;
+      //     break;
+      //   case 3:
+      //     this.Question.image4 = img;
+      //     break;
+      //   case 4:
+      //     this.Question.image5 = img;
+      //     break;
+      //   case 5:
+      //     this.Question.image6 = img;
+      //     break;
+      //   case 6:
+      //     this.Question.image7 = img;
+      //     break;
+      //   case 7:
+      //     this.Question.image8 = img;
+      //     break;
+      //   case 8:
+      //     this.Question.image9 = img;
+      //     break;
+      //   case 9:
+      //     this.Question.image10 = img;
+      //     break;
+      // }
+      // console.log(this.Question);
+
+      // store.commit("SET_QUESTION", this.Question);
     },
     addAns(ans, i) {
       switch (i) {
@@ -314,6 +412,24 @@ export default {
           break;
         case 3:
           this.Question.answer4 = ans;
+          break;
+        case 4:
+          this.Question.answer5 = ans;
+          break;
+        case 5:
+          this.Question.answer6 = ans;
+          break;
+        case 6:
+          this.Question.answer7 = ans;
+          break;
+        case 7:
+          this.Question.answer8 = ans;
+          break;
+        case 8:
+          this.Question.answer9 = ans;
+          break;
+        case 9:
+          this.Question.answer10 = ans;
           break;
       }
     },
@@ -333,6 +449,7 @@ export default {
     // }),
     onConfirm() {
       this.value = "Agreed";
+      store.dispatch("createForm");
     },
     onCancel() {
       this.value = "Disagreed";
@@ -352,6 +469,7 @@ export default {
     //   this.$refs.container.appendChild(instance.$el);
     // },
     onClickGeneric() {
+      store.commit("SET_QUESTION", this.Question);
       var ComponentClass = Vue.extend(Generic);
       var instance = new ComponentClass({
         propsData: { type: "primary" }
@@ -384,7 +502,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.user
+      user: state => state.user,
+      question: state => state.question
     })
   }
 };

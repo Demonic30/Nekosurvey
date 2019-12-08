@@ -65,6 +65,21 @@ export default {
 
   mounted() {
     this.$store.dispatch("getTitle");
+   
+//    Object.size = function(obj) {
+//   var size = 0, key;
+//   for (key in obj) {
+//       if (obj.hasOwnProperty(key)) size++;
+//   }
+//   return size;
+// };
+// console.log("Test storage"+this.$store.getters.title)
+// console.log("Test storage"+JSON.stringify(this.$store.getters.title))
+// var saveing = Object.size(this.$store.getters.title)
+//     console.log(saveing);
+    
+    // this.$store.commit("SET_NUMBER", title[index].icon)
+    
   },
   computed: {
     ...mapState({
@@ -73,6 +88,7 @@ export default {
     })
   },
   methods: {
+    
     setNum(data) {
       this.$store.commit("SET_NUM", data), this.$router.push("form");
     }

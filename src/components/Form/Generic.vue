@@ -3,14 +3,16 @@
     <div ref="change">
       <md-card>
         <md-card-content>
+          <label>- คำถามรูปแบบตัวเลือกประกอบรูปภาพ</label>
           <div class="md-layout">
+            
             <div class="md-layout-item md-small-size-90 md-size-90">
               <md-field slot="content">
                 <label>คำถาม</label>
                 <md-input type="text"></md-input>
               </md-field>
 
-              <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3">
+              <div v-if="iii == 0 || iii == 1 || iii == 2 || iii == 3 || iii == 4 || iii == 5 || iii == 6 || iii == 7 || iii == 8 || iii == 9">
                 <md-button id="btn" class="md-success md-icon-button md-dense" @click="addRow">
                   <md-icon>add_box</md-icon>
                   <md-tooltip md-direction="bottom">เพิ่มคำตอบ</md-tooltip>
@@ -54,6 +56,7 @@
               </ul>
             
               {{ Q1 }}
+              {{question}}
             </div>
             <div class="md-layout-item md-small-size-10 md-size-10">
               <md-menu md-size="medium" md-align-trigger>
@@ -178,44 +181,81 @@ export default {
     iii: 0,
     Q1: {}
   }),
-  mounted(){
-    console.log(this.$store +" 5555555555555555");
-  },
+  // mounted(){
+  //   console.log(this.$store +" 5555555555555555");
+  //   console.log(JSON.stringify(this.$store))
+  // },
   methods: {
     
     addImg(img, i) {
       
       switch (i) {
         case 0:
-          this.Q1.image1 = img;
+          this.Question.image1 = img;
           break;
         case 1:
-          this.Q1.image2 = img;
+          this.Question.image2 = img;
           break;
         case 2:
-          this.Q1.image3 = img;
+          this.Question.image3 = img;
           break;
         case 3:
-          this.Q1.image4 = img;
+          this.Question.image4 = img;
+          break;
+        case 4:
+          this.Question.image5 = img;
+          break;
+        case 5:
+          this.Question.image6 = img;
+          break;
+        case 6:
+          this.Question.image7 = img;
+          break;
+        case 7:
+          this.Question.image8 = img;
+          break;
+        case 8:
+          this.Question.image9 = img;
+          break;
+        case 9:
+          this.Question.image10 = img;
           break;
       }
-      console.log(this.Q1);
-      
-    this.store.commit('SET_QUESTION',"this.Q1");
+      console.log("Test Q1"+this.Q1);
+      console.log("Test Q1"+JSON.stringify(this.Q1));
+    // store.commit('SET_QUESTION',this.Q1);
     },
     addAns(ans, i) {
       switch (i) {
         case 0:
-          this.Q1.answer1 = ans;
+          this.Question.answer1 = ans;
           break;
         case 1:
-          this.Q1.answer2 = ans;
+          this.Question.answer2 = ans;
           break;
         case 2:
-          this.Q1.answer3 = ans;
+          this.Question.answer3 = ans;
           break;
         case 3:
-          this.Q1.answer4 = ans;
+          this.Question.answer4 = ans;
+          break;
+        case 4:
+          this.Question.answer5 = ans;
+          break;
+        case 5:
+          this.Question.answer6 = ans;
+          break;
+        case 6:
+          this.Question.answer7 = ans;
+          break;
+        case 7:
+          this.Question.answer8 = ans;
+          break;
+        case 8:
+          this.Question.answer9 = ans;
+          break;
+        case 9:
+          this.Question.answer10 = ans;
           break;
       }
     },
@@ -268,7 +308,7 @@ export default {
       this.$refs.container.appendChild(instance.$el);
     },
     addQuestion(){
-      this.$index.commit('SET_QUESTION',this.Q1);
+      store.commit('SET_QUESTION',this.Q1);
       var ComponentClass = Vue.extend(QuickReply);
       var instance = new ComponentClass({
         propsData: { type: "primary" }
@@ -278,6 +318,11 @@ export default {
       //         console.log(this.$refs)
       this.$refs.container.appendChild(instance.$el);
     }
+  },
+  computed: {
+    ...mapState({
+      question: state => state.question,
+    })
   },
   props: ["type"]
 };

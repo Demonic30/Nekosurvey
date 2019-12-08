@@ -2,7 +2,7 @@
   <div ref="container">
     <div ref="change">
       <md-card>
-        <md-card-content>
+        <md-card-content>   
           <div class="md-layout">
             <div class="md-layout-item md-small-size-90 md-size-90">
               <md-field slot="content">
